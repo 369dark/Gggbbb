@@ -1,1 +1,230 @@
-429: Too Many Requests
+import React from "react"; import { motion } from "framer-motion"; import { Button, } from "@/components/ui/button"; import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle, } from "@/components/ui/card"; import { Input } from "@/components/ui/input"; import { Textarea } from "@/components/ui/textarea"; import { Badge } from "@/components/ui/badge"; import { Switch } from "@/components/ui/switch"; import { Check, Sparkles, Rocket, Shield, Mail, Phone, MapPin } from "lucide-react";
+
+// Variants de animação const fadeUp = { hidden: { opacity: 0, y: 24 }, show: { opacity: 1, y: 0, transition: { duration: 0.6 } }, };
+
+const container = { hidden: { opacity: 0 }, show: { opacity: 1, transition: { staggerChildren: 0.08 } }, };
+
+// Paleta base via Tailwind (usa classes) // Layout responsivo com grid e cantos 2xl
+
+export default function LandingPage() { const [dark, setDark] = React.useState(true);
+
+React.useEffect(() => { if (dark) { document.documentElement.classList.add("dark"); } else { document.documentElement.classList.remove("dark"); } }, [dark]);
+
+return ( <div className="min-h-screen bg-gradient-to-b from-background to-muted/30 text-foreground"> {/* Navbar */} <header className="sticky top-0 z-50 backdrop-blur supports-[backdrop-filter]:bg-background/60 border-b"> <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-3 flex items-center justify-between"> <div className="flex items-center gap-2"> <div className="h-9 w-9 rounded-2xl bg-primary/10 flex items-center justify-center"> <Sparkles className="h-5 w-5" /> </div> <span className="font-semibold text-lg">SuaMarca</span> </div> <nav className="hidden md:flex items-center gap-6 text-sm"> <a href="#recursos" className="hover:opacity-80">Recursos</a> <a href="#planos" className="hover:opacity-80">Planos</a> <a href="#contato" className="hover:opacity-80">Contato</a> </nav> <div className="flex items-center gap-3"> <div className="flex items-center gap-2 text-xs"> <span>Claro</span> <Switch checked={dark} onCheckedChange={setDark} /> <span>Escuro</span> </div> <Button className="rounded-2xl">Começar</Button> </div> </div> </header>
+
+{/* Hero */}
+  <section className="relative">
+    <div className="absolute inset-0 -z-10 [mask-image:radial-gradient(60%_60%_at_50%_0%,black,transparent)]">
+      <div className="absolute inset-x-0 -top-24 h-72 bg-primary/20 blur-3xl" />
+    </div>
+    <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-20">
+      <motion.div variants={container} initial="hidden" animate="show" className="grid lg:grid-cols-2 gap-10 items-center">
+        <motion.div variants={fadeUp} className="space-y-6">
+          <Badge className="rounded-2xl px-3 py-1" variant="secondary">Novo • 2025</Badge>
+          <h1 className="text-4xl md:text-6xl font-extrabold tracking-tight">
+            Um site elegante para o seu negócio
+          </h1>
+          <p className="text-muted-foreground text-lg max-w-prose">
+            Apresente sua marca com um design rápido, moderno e responsivo. Edite textos e seções facilmente para publicar hoje mesmo.
+          </p>
+          <div className="flex flex-col sm:flex-row gap-3">
+            <Button size="lg" className="rounded-2xl gap-2">
+              <Rocket className="h-4 w-4" /> Lançar agora
+            </Button>
+            <Button size="lg" variant="outline" className="rounded-2xl">Ver recursos</Button>
+          </div>
+          <div className="flex items-center gap-4 pt-2 text-sm text-muted-foreground">
+            <div className="flex items-center gap-2"><Shield className="h-4 w-4" /> SSL e performance</div>
+            <div className="flex items-center gap-2"><Check className="h-4 w-4" /> Sem código necessário</div>
+          </div>
+        </motion.div>
+        <motion.div variants={fadeUp} className="">
+          <div className="aspect-video rounded-2xl border bg-muted overflow-hidden shadow-lg">
+            <div className="h-full w-full grid place-items-center">
+              <div className="text-center px-6">
+                <div className="text-sm uppercase tracking-widest text-muted-foreground">Prévia</div>
+                <div className="mt-2 text-2xl font-semibold">Coloque aqui uma imagem do seu produto/serviço</div>
+              </div>
+            </div>
+          </div>
+        </motion.div>
+      </motion.div>
+    </div>
+  </section>
+
+  {/* Recursos */}
+  <section id="recursos" className="py-16">
+    <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div className="max-w-2xl">
+        <h2 className="text-3xl font-bold tracking-tight">Recursos que importam</h2>
+        <p className="text-muted-foreground mt-2">
+          Tudo o que você precisa para vender, apresentar portfólio ou captar leads.
+        </p>
+      </div>
+      <div className="grid md:grid-cols-3 gap-6 mt-10">
+        {[
+          {
+            icon: <Sparkles className="h-5 w-5" />, title: "Design limpo",
+            desc: "Interface minimalista com foco no conteúdo e conversão."
+          },
+          {
+            icon: <Rocket className="h-5 w-5" />, title: "Performance",
+            desc: "Carregamento rápido e otimizado para SEO."
+          },
+          {
+            icon: <Shield className="h-5 w-5" />, title: "Segurança",
+            desc: "Boas práticas de segurança e estrutura pronta para HTTPS."
+          },
+        ].map((f, i) => (
+          <motion.div variants={fadeUp} initial="hidden" whileInView="show" viewport={{ once: true, amount: 0.2 }} key={i}>
+            <Card className="rounded-2xl">
+              <CardHeader className="flex flex-row items-center gap-3">
+                <div className="h-9 w-9 rounded-2xl bg-primary/10 grid place-items-center">{f.icon}</div>
+                <CardTitle className="text-xl">{f.title}</CardTitle>
+              </CardHeader>
+              <CardContent>
+                <CardDescription>{f.desc}</CardDescription>
+              </CardContent>
+            </Card>
+          </motion.div>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  {/* Planos */}
+  <section id="planos" className="py-16 bg-muted/30">
+    <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div className="text-center max-w-2xl mx-auto">
+        <h2 className="text-3xl font-bold tracking-tight">Planos simples</h2>
+        <p className="text-muted-foreground mt-2">Escolha o que melhor se encaixa no seu momento.</p>
+      </div>
+      <div className="grid md:grid-cols-3 gap-6 mt-10">
+        {[
+          {
+            name: "Starter",
+            price: "R$ 0",
+            desc: "Para começar a validar sua ideia.",
+            features: ["1 página", "Formulário de contato", "SEO básico"],
+            cta: "Começar",
+            highlight: false,
+          },
+          {
+            name: "Pro",
+            price: "R$ 49/mês",
+            desc: "Para negócios em crescimento.",
+            features: ["Até 10 páginas", "Blog básico", "Integração com Analytics"],
+            cta: "Assinar Pro",
+            highlight: true,
+          },
+          {
+            name: "Business",
+            price: "R$ 199/mês",
+            desc: "Para equipes e operações maiores.",
+            features: ["Páginas ilimitadas", "CMS", "Suporte prioritário"],
+            cta: "Falar com vendas",
+            highlight: false,
+          },
+        ].map((plan, i) => (
+          <motion.div variants={fadeUp} initial="hidden" whileInView="show" viewport={{ once: true }} key={i}>
+            <Card className={`rounded-2xl h-full ${plan.highlight ? "border-primary shadow-xl" : ""}`}>
+              <CardHeader>
+                <div className="flex items-baseline justify-between">
+                  <CardTitle>{plan.name}</CardTitle>
+                  {plan.highlight && <Badge className="rounded-2xl">Mais popular</Badge>}
+                </div>
+                <CardDescription>{plan.desc}</CardDescription>
+              </CardHeader>
+              <CardContent>
+                <div className="text-3xl font-bold">{plan.price}</div>
+                <ul className="mt-4 space-y-2 text-sm">
+                  {plan.features.map((ft, idx) => (
+                    <li key={idx} className="flex items-center gap-2">
+                      <Check className="h-4 w-4" /> {ft}
+                    </li>
+                  ))}
+                </ul>
+              </CardContent>
+              <CardFooter>
+                <Button className="w-full rounded-2xl" variant={plan.highlight ? "default" : "outline"}>
+                  {plan.cta}
+                </Button>
+              </CardFooter>
+            </Card>
+          </motion.div>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  {/* CTA */}
+  <section className="py-16">
+    <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <motion.div variants={fadeUp} initial="hidden" whileInView="show" viewport={{ once: true }} className="rounded-2xl border p-8 grid md:grid-cols-2 gap-6 items-center">
+        <div>
+          <h3 className="text-2xl font-bold">Pronto para dar o próximo passo?</h3>
+          <p className="text-muted-foreground mt-2">Publique seu novo site em minutos. Personalize cores, textos e seções para sua marca.</p>
+        </div>
+        <div className="flex gap-3 md:justify-end">
+          <Button className="rounded-2xl">Criar conta</Button>
+          <Button variant="outline" className="rounded-2xl">Falar com especialista</Button>
+        </div>
+      </motion.div>
+    </div>
+  </section>
+
+  {/* Contato */}
+  <section id="contato" className="py-16 bg-muted/30">
+    <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div className="grid lg:grid-cols-2 gap-10">
+        <div>
+          <h2 className="text-3xl font-bold tracking-tight">Fale com a gente</h2>
+          <p className="text-muted-foreground mt-2">Envie uma mensagem e retornaremos em breve.</p>
+          <div className="mt-6 space-y-3 text-sm text-muted-foreground">
+            <div className="flex items-center gap-2"><Mail className="h-4 w-4" /> contato@suamarca.com</div>
+            <div className="flex items-center gap-2"><Phone className="h-4 w-4" /> (00) 0000-0000</div>
+            <div className="flex items-center gap-2"><MapPin className="h-4 w-4" /> Brasil</div>
+          </div>
+        </div>
+        <Card className="rounded-2xl">
+          <CardHeader>
+            <CardTitle>Envie uma mensagem</CardTitle>
+            <CardDescription>Preencha os campos abaixo.</CardDescription>
+          </CardHeader>
+          <CardContent>
+            <form className="space-y-4">
+              <div>
+                <label className="text-sm" htmlFor="nome">Nome</label>
+                <Input id="nome" placeholder="Seu nome" className="mt-1" />
+              </div>
+              <div>
+                <label className="text-sm" htmlFor="email">Email</label>
+                <Input id="email" type="email" placeholder="voce@exemplo.com" className="mt-1" />
+              </div>
+              <div>
+                <label className="text-sm" htmlFor="mensagem">Mensagem</label>
+                <Textarea id="mensagem" placeholder="Como podemos ajudar?" className="mt-1" rows={5} />
+              </div>
+              <Button type="button" className="rounded-2xl">Enviar</Button>
+            </form>
+          </CardContent>
+        </Card>
+      </div>
+    </div>
+  </section>
+
+  {/* Footer */}
+  <footer className="py-10">
+    <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div className="flex flex-col md:flex-row items-center justify-between gap-4">
+        <div className="flex items-center gap-2">
+          <div className="h-8 w-8 rounded-2xl bg-primary/10 grid place-items-center"><Sparkles className="h-4 w-4" /></div>
+          <span className="font-semibold">SuaMarca</span>
+        </div>
+        <p className="text-xs text-muted-foreground">© {new Date().getFullYear()} SuaMarca. Todos os direitos reservados.</p>
+      </div>
+    </div>
+  </footer>
+</div>
+
+); }
